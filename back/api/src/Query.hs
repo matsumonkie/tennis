@@ -6,6 +6,7 @@ module Query (
 , userQuery
 , usersWithPractitionersQuery
 , changeUserNameQuery
+, changeUserNameQuery2
 ) where
 
 import Database.PostgreSQL.Simple.SqlQQ
@@ -22,6 +23,10 @@ practitionersQuery =
       FROM practitioners AS prc
       LIMIT 4
       |]
+
+changeUserNameQuery2 :: Query
+changeUserNameQuery2 =
+  [sql| UPDATE users SET first_name = ? WHERE id = ? |]
 
 changeUserNameQuery :: Int -> String -> Query
 changeUserNameQuery id name =
@@ -67,5 +72,6 @@ usersQuery =
   [sql|
       SELECT usr.id, usr.first_name, usr.title
       FROM users AS usr
+      ORDER BY usr.id
       LIMIT 4
       |]

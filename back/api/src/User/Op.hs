@@ -1,6 +1,6 @@
 module User.Op (
   index
-, show
+, find
 , males
 , females
 , changeName
@@ -12,12 +12,13 @@ import User.Predicate
 import Connection
 import Mapping
 import Query
+import Data.Int
 
 index :: IO [User]
 index = fetch usersQuery
 
-show :: Int -> IO [User]
-show id = fetch $ userQuery id
+find :: Int -> IO [User]
+find id = fetch $ userQuery id
 
 males :: IO [User]
 males =
@@ -27,6 +28,10 @@ females :: IO [User]
 females =
   fmap (filter isFemale) index
 
-changeName :: Int -> String -> IO Int
-changeName id newName =
-  exec $ changeUserNameQuery id newName
+changeName :: Int -> String -> IO User
+changeName id newName = do
+  users <- find id
+  let user = head users
+  let newUser = user { name = newName }
+  exec changeUserNameQuery2 (name newUser, userId newUser)
+  return newUser

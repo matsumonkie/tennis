@@ -20,7 +20,7 @@ type UserAPI =
   :<|> "males" :> Get '[JSON] [User]
   :<|> "females" :> Get '[JSON] [User]
   :<|> "user" :> Capture "x" Int :> Get '[JSON] [User]
-  :<|> "changeName" :> Capture "x" Int :> Capture "name" String :> Get '[JSON] Int
+  :<|> "changeName" :> Capture "x" Int :> Capture "name" String :> Get '[JSON] User
 
 userServer :: Server UserAPI
 userServer = do
@@ -33,7 +33,7 @@ userServer = do
     getUsers = liftOp User.Op.index
     getMales = liftOp User.Op.males
     getFemales = liftOp User.Op.females
-    getUser id = liftOp $ User.Op.show id
+    getUser id = liftOp $ User.Op.find id
     changeName id name = liftOp $ User.Op.changeName id name
 
 liftOp op = liftIO op >>= return
