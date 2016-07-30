@@ -1,73 +1,51 @@
-module Router where
+module Router exposing (..)
 
-import Alias exposing (..)
-import Route exposing (..)
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Route exposing (Route)
 import Html.Events exposing (..)
-import List exposing (..)
-import Array exposing (..)
-import Task
-import History
-import Effects as Fx exposing (Effects, Never)
+import Navigation
+import Html exposing (..)
 
-{-
 -- MODEL
 
 type alias Model = Route
 
-init : (Model, Effects Action)
+init : (Model, Cmd Route)
 init =
-  let noOp =
-        Task.succeed NoOp
-          |> Fx.task
-  in
-    HomeRoute => noOp
-
+  (Route.Home, Cmd.none)
 
 -- UPDATE
 
-type Action = NoOp
-            | Follow Route
+update : Route -> Model -> (Model, Cmd Route)
+update msg model =
+  case msg of
+    Route.Home ->
+      (Route.Home, Cmd.none)
 
-setHash : String -> Effects Action
-setHash path =
-  History.setHash "coucou"
-    |> Task.map (\_ -> NoOp)
-    |> Fx.task
+    Route.User ->
+      (Route.User, Cmd.none)
 
-update : Action -> Model -> (Model, Effects Action)
-update action model =
-  case action of
-    NoOp ->
-      model => Fx.none
+-- SUBSCRIPTIONS
 
-    Follow route ->
-      case route of
-        HomeRoute ->
-          HomeRoute => setHash "home"
-
-        UserRoute ->
-          UserRoute => setHash "user"
-
+subscriptions : Model -> Sub Route
+subscriptions model =
+  Sub.none
 
 -- VIEW
 
-view : Signal.Address Action -> Model -> Html
-view address model =
+view : Model -> Html Route
+view model =
   case model of
-    UserRoute ->
-      div [] [
-          a [ onClick address <| Follow UserRoute ]
-            [text "home "],
-          a [ onClick address <| Follow HomeRoute ]
-            [text "you are on user"]
+    Route.User ->
+      ul [] [
+          li [ onClick (Route.User) ]
+             [text "your are on home"],
+          li [ onClick (Route.Home) ]
+             [text "user"]
       ]
-    HomeRoute ->
-      div [] [
-          a [ onClick address <| Follow UserRoute ]
-            [text "you are on home "],
-          a [ onClick address <| Follow HomeRoute ]
-            [text "user"]
+    Route.Home ->
+      ul [] [
+          li [ onClick (Route.User) ]
+             [text "home"],
+          li [ onClick (Route.Home) ]
+             [text "you are on user"]
       ]
--}

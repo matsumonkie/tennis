@@ -1,8 +1,4 @@
-module Route where
+module Route exposing (..)
 
-import Html exposing (..)
-
-type alias ID = Int
-
-type Route = HomeRoute
-           | UserRoute
+type Route = Home
+           | User
