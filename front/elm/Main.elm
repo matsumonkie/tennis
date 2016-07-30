@@ -1,10 +1,10 @@
 import Html.App as App
-import User
+import Users
 
 main =
   App.program
-    { init = User.init "cats"
-    , view = User.view
-    , update = User.update
-    , subscriptions = User.subscriptions
+    { init = Users.init "cats"
+    , view = Users.view
+    , update = Users.update
+    , subscriptions = Users.subscriptions
     }
