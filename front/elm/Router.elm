@@ -11,7 +11,7 @@ import Task
 import History
 import Effects as Fx exposing (Effects, Never)
 
-
+{-
 -- MODEL
 
 type alias Model = Route
@@ -70,3 +70,4 @@ view address model =
           a [ onClick address <| Follow HomeRoute ]
             [text "user"]
       ]
+-}

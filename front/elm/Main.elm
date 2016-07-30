@@ -1,31 +1,60 @@
-import Router exposing (init, update, view)
-import StartApp
-import Task
-import Effects exposing (Effects, Never)
-import History exposing (..)
-import Route exposing (..)
-import Graphics.Element exposing (show)
-import Time
-
-app =
-  StartApp.start
-    { init = init
-    , update = update
-    , view = view
-    , inputs = [ router ]
-    }
+import Html exposing (..)
+import Html.App as App
+import Html.Events exposing (..)
+import Navigation
 
 main =
-  app.html
+  App.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }
 
-changeRoute : String -> Router.Action
-changeRoute route =
-  case route of
-    "home" -> Router.Follow HomeRoute
-    "user" -> Router.Follow UserRoute
-    _ -> Router.Follow UserRoute
+-- MODEL
 
-router : Signal Router.Action
-router =
-  History.hash -- Signal String
-  |> Signal.map changeRoute
+type Route = HomeRoute
+           | UserRoute
+
+type alias Model = Route
+
+init : (Model, Cmd Route)
+init =
+  (HomeRoute, Cmd.none)
+
+-- UPDATE
+
+update : Route -> Model -> (Model, Cmd Route)
+update msg model =
+  case msg of
+    HomeRoute ->
+      (HomeRoute, Cmd.none)
+
+    UserRoute ->
+      (UserRoute, Cmd.none)
+
+-- SUBSCRIPTIONS
+
+subscriptions : Model -> Sub Route
+subscriptions model =
+  Sub.none
+
+-- VIEW
+
+view : Model -> Html Route
+view model =
+  case model of
+    UserRoute ->
+      ul [] [
+          li [ onClick (UserRoute) ]
+             [text "your are on home"],
+          li [ onClick (HomeRoute) ]
+             [text "user"]
+      ]
+    HomeRoute ->
+      ul [] [
+          li [ onClick (UserRoute) ]
+             [text "home"],
+          li [ onClick (HomeRoute) ]
+             [text "you are on user"]
+      ]
