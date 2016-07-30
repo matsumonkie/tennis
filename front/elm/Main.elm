@@ -1,10 +1,10 @@
 import Html.App as App
-import Router
+import User
 
 main =
   App.program
-    { init = Router.init
-    , view = Router.view
-    , update = Router.update
-    , subscriptions = Router.subscriptions
+    { init = User.init "cats"
+    , view = User.view
+    , update = User.update
+    , subscriptions = User.subscriptions
     }
