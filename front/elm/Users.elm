@@ -13,8 +13,8 @@ import Alias exposing (..)
 
 type alias Model = List User.Model
 
-init : String -> (Model, Cmd Msg)
-init whatever =
+init : (Model, Cmd Msg)
+init =
   ( []
   , getUsers
   )
@@ -39,8 +39,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  let inner = Alias.for model <| \user -> h2 [] [ text (user.name) ]
-  in div [] inner
+  let
+    innerView = List.map views model
+    views user = h2 [] [ text (user.name) ]
+  in div [] innerView
 
 
 -- SUBSCRIPTIONS

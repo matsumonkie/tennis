@@ -3,7 +3,7 @@ import Users
 
 main =
   App.program
-    { init = Users.init "cats"
+    { init = Users.init
     , view = Users.view
     , update = Users.update
     , subscriptions = Users.subscriptions
