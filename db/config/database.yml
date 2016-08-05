@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  encoding:   unicode
+  template:   template1
+  host:       localhost
+  username:   iori
+  password:   iori
+
+development:
+  <<: *default
+  database: tennis_dev
+
+test:
+  <<: *default
+  database: tennis_test
