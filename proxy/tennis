@@ -33,11 +33,11 @@ server {
   server_name tennis.com;
 
   location /index.html {
-    root /home/iori/work/tennis/front/html;
+    root /home/iori/work/tennis/html;
   }
 
-  location /index.js {
-    root /home/iori/work/tennis/front/js;
+  location ~ (\.js)$ {
+    root /home/iori/work/tennis/script;
   }
 
   location / {
