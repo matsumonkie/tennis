@@ -1,10 +1,10 @@
 module User.Predicate
 (
-  isFemale, isMale
+--  isFemale, isMale
 ) where
 
 import User.Model
 
-isFemale :: User -> Bool
-isFemale = ((== Ms) . title)
-isMale = not . isFemale
+--isFemale :: User -> Bool
+--isFemale = ((== Ms) . title)
+--isMale = not . isFemale

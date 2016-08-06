@@ -49,7 +49,8 @@ CREATE TABLE schema_migrations (
 CREATE TABLE users (
     id integer NOT NULL,
     email character varying,
-    name character varying
+    name character varying,
+    gender character varying
 );
 
 

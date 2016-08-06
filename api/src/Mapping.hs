@@ -2,6 +2,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE OverlappingInstances #-}
 
 module Mapping (
 ) where
@@ -20,7 +21,7 @@ import Data.ByteString.Builder (byteString)
 -- JSON MAPPER
 
 instance ToJSON User
-instance ToJSON Title
+instance ToJSON Gender
 instance ToJSON Practitioner
 
 instance ToJSON (User :. Practitioner) where
@@ -33,15 +34,14 @@ instance ToRow User where
   toRow User{..} =
     [ toField userId
     , toField name
-    , toField title
+    , toField email
+    , toField gender
     ]
 
-instance ToField Title where
-  toField Ms      = Plain $ byteString "ms"
-  toField Prof    = Plain $ byteString "prof"
-  toField Mr      = Plain $ byteString "mr"
-  toField Dr      = Plain $ byteString "dr"
-  toField NoTitle = Plain $ byteString ""
+instance ToField (Maybe Gender) where
+  toField (Just Female) = Plain $ byteString "female"
+  toField (Just Male)   = Plain $ byteString "male"
+  toField _ = Plain $ byteString ""
 
 
 -- SQL MAPPER
@@ -50,14 +50,12 @@ instance FromRow Practitioner where
   fromRow = Practitioner <$> field
 
 instance FromRow User where
-  fromRow = User <$> field <*> field <*> field
+  fromRow = User <$> field <*> field <*> field <*> field
 
-instance FromField Title where
+instance FromField (Maybe Gender) where
   fromField f mdata =
-    return title
-    where title = case mdata of
-            Just "Ms" -> Ms
-            Just "Mr" -> Mr
-            Just "Dr" -> Dr
-            Just "Prof" -> Prof
-            _ -> NoTitle
+    return gender
+    where gender = case mdata of
+            Just "female" -> Just Female
+            Just "male" -> Just Male
+            _ -> Nothing

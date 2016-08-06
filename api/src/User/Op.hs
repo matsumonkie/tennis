@@ -1,8 +1,8 @@
 module User.Op (
   index
 , find
-, males
-, females
+--, males
+--, females
 , changeName
 ) where
 
@@ -20,13 +20,13 @@ index = fetch usersQuery
 find :: Int -> IO [User]
 find id = fetch $ userQuery id
 
-males :: IO [User]
-males =
-  fmap (filter isMale) index
-
-females :: IO [User]
-females =
-  fmap (filter isFemale) index
+--males :: IO [User]
+--males =
+--  fmap (filter isMale) index
+--
+--females :: IO [User]
+--females =
+--  fmap (filter isFemale) index
 
 changeName :: Int -> String -> IO User
 changeName id newName = do

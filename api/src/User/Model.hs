@@ -1,18 +1,15 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module User.Model ( User(..)
-                  , Title(..)
+                  , Gender(..)
                   ) where
 
 import GHC.Generics
 
 data User = User { userId :: Int
+                 , email :: String
                  , name :: String
-                 , title :: Title
+                 , gender :: Maybe Gender
                  } deriving (Eq, Show, Generic)
 
-data Title = Ms
-           | Prof
-           | Mr
-           | Dr
-           | NoTitle deriving (Eq, Show, Generic)
+data Gender = Female | Male deriving (Eq, Show, Generic)

@@ -20,7 +20,7 @@ fetch q = do
 connection :: IO Connection
 connection =
   connectPostgreSQL config
-  where config = "dbname='medrefer_dev' \
+  where config = "dbname='tennis_dev' \
                  \user='iori' \
                  \password='iori'"
 

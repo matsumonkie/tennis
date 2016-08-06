@@ -42,7 +42,7 @@ userQuery :: Int -> Query
 userQuery id =
   let
     rawQuery =
-      "SELECT usr.id, usr.first_name, usr.title \
+      "SELECT usr.id, usr.name, usr.email, usr.gender \
       \FROM users AS usr \
       \WHERE usr.id = " ++ (show id) ++ " LIMIT 1"
   in
@@ -70,7 +70,7 @@ usersWithPractitionersQuery =
 usersQuery :: Query
 usersQuery =
   [sql|
-      SELECT usr.id, usr.first_name, usr.title
+      SELECT usr.id, usr.name, usr.email, usr.gender
       FROM users AS usr
       ORDER BY usr.id
       LIMIT 4
