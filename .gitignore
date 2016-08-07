@@ -1,3 +1,5 @@
 .stack-work/
 elm-stuff
 log
+bower_components/
+script/node_modules
