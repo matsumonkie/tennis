@@ -14,6 +14,14 @@ server {
     root /home/iori/work/tennis/script;
   }
 
+  location ~ (\.css)$ {
+    root /home/iori/work/tennis/bower_components;
+  }
+
+  location ~ (\.elm)$ {
+    proxy_pass http://frontend;
+  }
+
   location / {
     index index.html;
   }

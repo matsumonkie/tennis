@@ -2,4 +2,6 @@
 elm-stuff
 log
 bower_components/
-script/node_modules
+node_modules
+elm.js
+bundle.js
