@@ -5,3 +5,4 @@ bower_components/
 node_modules
 elm.js
 bundle.js
+bin
