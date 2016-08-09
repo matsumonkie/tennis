@@ -6,3 +6,4 @@ node_modules
 elm.js
 bundle.js
 bin
+npm-debug.log
