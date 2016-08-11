@@ -4,19 +4,16 @@
   "description": "Tennis Court management application",
   "main": "index.js",
   "dependencies": {
-    "bower": "^1.7.9",
-    "elm": "^0.17.1",
-    "elm-webpack-loader": "^3.0.2",
+    "elm-webpack-loader": "^3.0.3",
     "node-elm-compiler": "^4.0.1",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
-    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "build": "webpack --config webpack.js.config",
     "watch": "webpack --config webpack.js.config --watch --progress --colors",
-    "build_prod": "webpack --config webpack.js.config -p",
+    "compile": "webpack --config webpack.js.config -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

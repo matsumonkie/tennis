@@ -40,7 +40,7 @@ userView =
 usersView : Html msg
 usersView =
   div []
-      [ text "users22"
+      [ text "users"
       ]
 
 notFoundView : Html msg
