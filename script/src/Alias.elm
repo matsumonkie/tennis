@@ -4,4 +4,5 @@ type alias ID = Int
 
 (=>) = (,)
 
+
 for = flip List.map

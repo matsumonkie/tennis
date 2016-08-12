@@ -1,7 +1,7 @@
-module App.View exposing (..)
+module View exposing (..)
 
-import App.Model exposing (Model)
-import App.Msg exposing (Msg)
+import Model exposing (Model)
+import Msg exposing (Msg)
 import Route exposing (Route)
 import Html exposing (Html, div, text)
 

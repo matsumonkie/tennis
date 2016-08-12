@@ -1,12 +1,12 @@
-module App.Main exposing (..)
+module Main exposing (..)
 
 import Html.App as App
 import Navigation
 
 import Route exposing (Route)
-import App.View exposing (view)
-import App.Model exposing (..)
-import App.Msg exposing (Msg)
+import View exposing (view)
+import Model exposing (..)
+import Msg exposing (Msg)
 
 urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
 urlUpdate result model =

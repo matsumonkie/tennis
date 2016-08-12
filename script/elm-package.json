@@ -4,8 +4,7 @@
     "repository": "https://github.com/matsumonkie/tennis.git",
     "license": "MIT License",
     "source-directories": [
-      "./src",
-      "./src/App"
+      "./src"
     ],
     "exposed-modules": [],
     "dependencies": {
