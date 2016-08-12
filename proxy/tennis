@@ -15,7 +15,7 @@ server {
   }
 
   location ~ (\.css)$ {
-    root /home/iori/work/tennis/bower_components;
+    root /home/iori/work/tennis/assets/bower_components;
   }
 
   location ~ (\.elm)$ {
