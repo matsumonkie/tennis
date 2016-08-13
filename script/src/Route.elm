@@ -7,15 +7,28 @@ import UrlParser exposing (..)
 type Route
     = Home
     | Users
-    | User Int
     | NotFound
+
+toHref : Route -> String
+toHref route =
+  case route of
+    Home -> "#home"
+    Users -> "#users"
+    NotFound -> "#"
+
+
+toText : Route -> String
+toText route =
+  case route of
+    Home -> "Home"
+    Users -> "Users"
+    NotFound -> ""
 
 matchers : Parser (Route -> a) a
 matchers =
   oneOf
     [ format Home (s "")
     , format Users (s "users")
-    , format User (s "user" </> int)
     ]
 
 hashParser : Navigation.Location -> Result String Route
