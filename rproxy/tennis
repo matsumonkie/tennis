@@ -1,4 +1,9 @@
+etag on;
+
 server {
+
+  gzip off;
+
   listen 80;
   server_name tennis.com;
 
