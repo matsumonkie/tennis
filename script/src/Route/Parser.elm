@@ -1,34 +1,29 @@
-module Route exposing (..)
+module Route.Parser exposing (..)
 
 import String
 import Navigation
 import UrlParser exposing (..)
-
-type Route
-    = Home
-    | Users
-    | NotFound
+import Route.Model as Route exposing (Route)
 
 toHref : Route -> String
 toHref route =
   case route of
-    Home -> "#home"
-    Users -> "#users"
-    NotFound -> "#"
-
+    Route.Home -> "#"
+    Route.Users -> "#users"
+    Route.NotFound -> "#not-found"
 
 toText : Route -> String
 toText route =
   case route of
-    Home -> "Home"
-    Users -> "Users"
-    NotFound -> ""
+    Route.Home -> "Home"
+    Route.Users -> "Users"
+    Route.NotFound -> ""
 
 matchers : Parser (Route -> a) a
 matchers =
   oneOf
-    [ format Home (s "")
-    , format Users (s "users")
+    [ format Route.Home (s "")
+    , format Route.Users (s "users")
     ]
 
 hashParser : Navigation.Location -> Result String Route
@@ -47,4 +42,4 @@ routeFromResult result =
       route
 
     Err string ->
-      NotFound
+      Route.NotFound

@@ -1,16 +1,16 @@
-module View exposing (..)
+module Menu.View exposing (..)
 
-import Model exposing (Model)
+import Body.Model exposing (Model)
 import Msg exposing (Msg)
-import Route exposing (Route)
+import Route.Model as Route exposing (Route)
+import Route.Parser as Parser
 import Html exposing (Html, div, text, li, a, span, ul)
 import Html.Attributes exposing (id, class, href)
 import Alias exposing (for)
 
 view : Model -> Html Msg
 view model =
-  ul [ id "menu-items", class "nav navbar-nav"]
-     (htmlMenu model)
+  ul [ class "nav navbar-nav" ] (htmlMenu model)
 
 type alias Menu = List MenuItem
 type MenuItem = MenuItem Route
@@ -31,8 +31,8 @@ menuItemToHtml model menuItem =
       else "unactive"
   in
     li []
-      [ a [ class menuClass, href <| Route.toHref route ]
-          [ text <| Route.toText route ]
+      [ a [ class menuClass, href <| Parser.toHref route ]
+          [ text <| Parser.toText route ]
       ]
 
 htmlMenu : Model -> List (Html Msg)

@@ -1,6 +1,6 @@
-module Model exposing (..)
+module Menu.Model exposing (..)
 
-import Route exposing (Route)
+import Route.Model exposing (Route)
 
 type alias Model =
   { route : Route
