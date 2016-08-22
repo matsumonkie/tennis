@@ -17,23 +17,20 @@ userProxy = Proxy :: Proxy UserAPI
 
 type UserAPI =
   "users" :> Get '[JSON] [User]
+  :<|> "users" :> Capture "x" Int :> Get '[JSON] [User]
   :<|> "users.male" :> Get '[JSON] [User]
---  :<|> "females" :> Get '[JSON] [User]
-  :<|> "user" :> Capture "x" Int :> Get '[JSON] [User]
   :<|> "changeName" :> Capture "x" Int :> Capture "name" String :> Get '[JSON] User
 
 userServer :: Server UserAPI
 userServer = do
   getUsers
-  :<|> getMales
---  :<|> getFemales
   :<|> getUser
+  :<|> getMales
   :<|> changeName
   where
     getUsers = liftOp User.Op.index
-    getMales = liftOp User.Op.males
---    getFemales = liftOp User.Op.females
     getUser id = liftOp $ User.Op.find id
+    getMales = liftOp User.Op.males
     changeName id name = liftOp $ User.Op.changeName id name
 
 liftOp op = liftIO op >>= return

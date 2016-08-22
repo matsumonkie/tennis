@@ -4,7 +4,7 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverlappingInstances #-}
 
-module Mapping (
+module User.Json (
 ) where
 
 import Database.PostgreSQL.Simple.FromField
@@ -37,8 +37,8 @@ instance ToRow User where
     , toField usrEmail
 --    , toField gender
     ]
-
-{-instance ToField (Maybe Gender) where
+{-
+instance ToField (Maybe Gender) where
   toField (Just Female) = Plain $ byteString "female"
   toField (Just Male)   = Plain $ byteString "male"
   toField _ = Plain $ byteString ""
