@@ -28,7 +28,7 @@ runQuery2 = runQuery
 find :: Int -> IO [User]
 find id = do
   co <- connection
-  runQuery2 co Query.find
+  runQuery2 co $ Query.find id
 
 males :: IO [User]
 males = undefined

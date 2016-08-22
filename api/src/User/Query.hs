@@ -18,8 +18,8 @@ import Opaleye
 users :: Query UserColumn
 users = queryTable usersTable
 
-find :: Query UserColumn
-find = proc () -> do
+find :: Int -> Query UserColumn
+find id = proc () -> do
   all@(User'{ usrId = id' }) <- users -< ()
-  restrict -< id' .== 2
+  restrict -< id' .== pgInt4 id
   returnA -< all
