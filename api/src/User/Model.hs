@@ -3,23 +3,24 @@
 module User.Model ( User
                   , UserColumn
                   , User'(..)
---                  , Gender(..)
+                  , Gender(..)
                   ) where
 
 import GHC.Generics
 import Opaleye (Column,
                 PGInt4,
                 PGInt8,
-                PGText)
+                PGText,
+                Nullable)
 
-data User' a b c = User'
+data User' a b c d = User'
   { usrId :: a
   , usrEmail :: b
   , usrName :: c
---  , gender :: d
+  , usrGender :: d
   } deriving (Eq, Show, Generic)
 
-type User = User' Int String String --(Maybe Gender)
-type UserColumn = User' (Column PGInt4) (Column PGText) (Column PGText)
+type User = User' Int String String (Gender)
+type UserColumn = User' (Column PGInt4) (Column PGText) (Column PGText) (Column PGText)
 
---data Gender = Female | Male deriving (Eq, Show, Generic)
+data Gender = Female | Male deriving (Eq, Show, Generic)

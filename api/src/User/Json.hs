@@ -21,7 +21,7 @@ import Data.ByteString.Builder (byteString)
 -- JSON MAPPER
 
 instance ToJSON User
---instance ToJSON Gender
+instance ToJSON Gender
 instance ToJSON Practitioner
 
 instance ToJSON (User :. Practitioner) where
@@ -29,34 +29,3 @@ instance ToJSON (User :. Practitioner) where
     Object $ fromList [ ("user",         toJSON user)
                       , ("practitioner", toJSON practitioner)
                       ]
-
-instance ToRow User where
-  toRow User'{..} =
-    [ toField usrId
-    , toField usrName
-    , toField usrEmail
---    , toField gender
-    ]
-{-
-instance ToField (Maybe Gender) where
-  toField (Just Female) = Plain $ byteString "female"
-  toField (Just Male)   = Plain $ byteString "male"
-  toField _ = Plain $ byteString ""
--}
-
--- SQL MAPPER
-
-instance FromRow Practitioner where
-  fromRow = Practitioner <$> field
-
-instance FromRow User where
-  fromRow = User' <$> field <*> field <*> field-- <*> field
-
-{-instance FromField (Maybe Gender) where
-  fromField f mdata =
-    return gender
-    where gender = case mdata of
-            Just "female" -> Just Female
-            Just "male" -> Just Male
-            _ -> Nothing
--}
