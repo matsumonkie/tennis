@@ -19,15 +19,18 @@ type UserAPI =
   "users" :> Get '[JSON] [User]
   :<|> "users" :> Capture "x" Int :> Get '[JSON] [User]
   :<|> "users.male" :> Get '[JSON] [User]
+  :<|> "users.female" :> Get '[JSON] [User]
 
 userServer :: Server UserAPI
 userServer = do
   getUsers
   :<|> getUser
   :<|> getMales
+  :<|> getFemales
   where
     getUsers = liftOp User.Op.index
     getUser id = liftOp $ User.Op.find id
     getMales = liftOp User.Op.males
+    getFemales = liftOp User.Op.females
 
 liftOp op = liftIO op >>= return

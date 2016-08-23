@@ -2,6 +2,7 @@ module User.Op (
   index
 , find
 , males
+, females
 ) where
 
 import Prelude hiding (show)
@@ -19,17 +20,23 @@ import qualified Database.PostgreSQL.Simple as PGS
 runQuery2 :: PGS.Connection -> Query UserColumn -> IO [User]
 runQuery2 = runQuery
 
+ex :: Query UserColumn -> IO [User]
+ex query = do
+  co <- connection
+  runQuery2 co query
+
 index :: IO [User]
 index = do
-   co <- connection
-   runQuery2 co QUsr.all
+  ex QUsr.all
 
 find :: Int -> IO [User]
 find id = do
-  co <- connection
-  runQuery2 co $ QUsr.find id
+  ex $ QUsr.find id
 
 males :: IO [User]
 males = do
-  co <- connection
-  runQuery2 co $ QUsr.withGender Male
+  ex $ QUsr.withGender Male
+
+females :: IO [User]
+females = do
+  ex $ QUsr.withGender Female
