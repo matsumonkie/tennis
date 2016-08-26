@@ -20,10 +20,11 @@ library
                      , User.Op
                      , User.Controller
                      , User.Query
-                     , User.Table
+                     , User.Schema
                      , User.Json
+                     , Club.Model
+                     , Club.Json
                      , Query
-                     , Practitioner.Model
                      , Connection
   build-depends:       base >= 4.7 && < 5
                      , base-compat

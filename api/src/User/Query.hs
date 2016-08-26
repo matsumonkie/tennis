@@ -15,7 +15,7 @@ import Data.Profunctor.Product.TH (makeAdaptorAndInstance)
 import Data.Profunctor.Product.Default (Default)
 
 import User.Model
-import User.Table
+import User.Schema
 import Control.Arrow (returnA, (<<<))
 import Opaleye
 import Data.Char hiding (all)

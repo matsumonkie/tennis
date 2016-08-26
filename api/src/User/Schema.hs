@@ -3,7 +3,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module User.Table ( UserColumn
+module User.Schema ( UserColumn
                   , usersTable
                   ) where
 

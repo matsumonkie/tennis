@@ -3,13 +3,14 @@ module User.Op (
 , find
 , males
 , females
+, more
 ) where
 
 import Prelude hiding (show)
 import User.Model
 import qualified User.Query as QUsr
 import User.Json
-import User.Table
+import User.Schema
 import Connection
 import Data.Int
 import Opaleye (runQuery, Query)
@@ -31,6 +32,10 @@ index = do
 
 find :: Int -> IO [User]
 find id = do
+  ex $ QUsr.find id
+
+more :: Int -> IO [User]
+more id = do
   ex $ QUsr.find id
 
 males :: IO [User]
