@@ -18,13 +18,18 @@ import User.Model
 import User.Schema
 import Control.Arrow (returnA, (<<<))
 import Opaleye
+import Opaleye.Order
 import Data.Char hiding (all)
 
 all :: Query UserColumn
 all = queryTable usersTable
 
 find :: Int -> Query UserColumn
-find id = proc () -> do
+find id =
+  (limit 1) (find' id)
+
+find' :: Int -> Query UserColumn
+find' id = proc () -> do
   row@(User'{ usrId = id' }) <- all -< ()
   restrictId id -< id'
   returnA -< row

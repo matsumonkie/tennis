@@ -32,11 +32,6 @@ find :: Int -> IO [User]
 find id = do
   exec $ QUsr.find id
 
-find' :: Int -> IO User
-find' id = do
-  users <- find id
-  return $ head users
-
 males :: IO [User]
 males = do
   exec $ QUsr.withGender Male
@@ -45,8 +40,9 @@ females :: IO [User]
 females = do
   exec $ QUsr.withGender Female
 
-more :: Int -> IO [User :. Club]
+more :: Int -> IO ([User], [Club])
 more id = do
-  user <- find' id
-  clubs <- exec $ QClb.with_users [ id ]
-  return [ (user :. (head clubs)) ]
+  users <- find id
+  clubs <- exec $ QClb.with_users $ fmap usrId users
+  return (users, clubs)
+  --return $ head users

@@ -22,7 +22,7 @@ type UserAPI =
   :<|> "users" :> Capture "x" Int :> Get '[JSON] [User]
   :<|> "users.male" :> Get '[JSON] [User]
   :<|> "users.female" :> Get '[JSON] [User]
-  :<|> "users.more" :> Capture "x" Int :> Get '[JSON] [User :. Club]
+  :<|> "users.more" :> Capture "x" Int :> Get '[JSON] ([User], [Club])
 
 userServer :: Server UserAPI
 userServer = do
