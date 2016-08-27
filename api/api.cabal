@@ -24,6 +24,8 @@ library
                      , User.Json
                      , Club.Model
                      , Club.Json
+                     , Club.Query
+                     , Club.Schema
                      , Query
                      , Connection
   build-depends:       base >= 4.7 && < 5

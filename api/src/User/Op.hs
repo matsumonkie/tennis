@@ -1,3 +1,5 @@
+{-# LANGUAGE TypeOperators #-}
+
 module User.Op (
   index
 , find
@@ -8,40 +10,43 @@ module User.Op (
 
 import Prelude hiding (show)
 import User.Model
+import Club.Model
+import Club.Schema
 import qualified User.Query as QUsr
+import qualified Club.Query as QClb
 import User.Json
 import User.Schema
 import Connection
 import Data.Int
 import Opaleye (runQuery, Query)
 import Opaleye.Internal.RunQuery as F
+import Database.PostgreSQL.Simple hiding (Query)
 
 import qualified Database.PostgreSQL.Simple as PGS
 
-runQuery2 :: PGS.Connection -> Query UserColumn -> IO [User]
-runQuery2 = runQuery
-
-ex :: Query UserColumn -> IO [User]
-ex query = do
-  co <- connection
-  runQuery2 co query
-
 index :: IO [User]
 index = do
-  ex QUsr.all
+  exec QUsr.all
 
 find :: Int -> IO [User]
 find id = do
-  ex $ QUsr.find id
+  exec $ QUsr.find id
 
-more :: Int -> IO [User]
-more id = do
-  ex $ QUsr.find id
+find' :: Int -> IO User
+find' id = do
+  users <- find id
+  return $ head users
 
 males :: IO [User]
 males = do
-  ex $ QUsr.withGender Male
+  exec $ QUsr.withGender Male
 
 females :: IO [User]
 females = do
-  ex $ QUsr.withGender Female
+  exec $ QUsr.withGender Female
+
+more :: Int -> IO [User :. Club]
+more id = do
+  user <- find' id
+  clubs <- exec $ QClb.with_users [ id ]
+  return [ (user :. (head clubs)) ]

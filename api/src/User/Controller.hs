@@ -10,8 +10,10 @@ import Servant
 import Control.Monad.Except
 
 import User.Model
+import Club.Model
 import User.Op
 import Debug.Trace
+import Database.PostgreSQL.Simple hiding (Query)
 
 userProxy = Proxy :: Proxy UserAPI
 
@@ -20,7 +22,7 @@ type UserAPI =
   :<|> "users" :> Capture "x" Int :> Get '[JSON] [User]
   :<|> "users.male" :> Get '[JSON] [User]
   :<|> "users.female" :> Get '[JSON] [User]
-  :<|> "users.more" :> Capture "x" Int :> Get '[JSON] [User]
+  :<|> "users.more" :> Capture "x" Int :> Get '[JSON] [User :. Club]
 
 userServer :: Server UserAPI
 userServer = do

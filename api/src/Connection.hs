@@ -3,26 +3,18 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module Connection (
-  fetch
-, fetch2
-, exec
-, connection
+  exec
 ) where
 
 import Control.Monad.Reader
-import Database.PostgreSQL.Simple
 import Data.Int
 import Database.PostgreSQL.Simple.ToField
 import Data.ByteString.Builder (byteString)
 import Opaleye (runQuery)
-
-fetch :: FromRow a => Query -> IO [a]
-fetch q = do
-  liftIO connection >>= (flip query_) q
-
---fetch2 :: Query a -> IO [b]
-fetch2 q = undefined
---  runQuer connection
+import qualified Data.Profunctor.Product.Default as D
+import Database.PostgreSQL.Simple hiding (Query)
+import Opaleye (runQuery, Query)
+import Opaleye.Internal.RunQuery as F
 
 connection :: IO Connection
 connection =
@@ -31,7 +23,7 @@ connection =
                  \user='iori' \
                  \password='iori'"
 
-exec :: ToRow a => Query -> a -> IO Int64
-exec query values = do
+exec :: D.Default QueryRunner a b => Query a -> IO [b]
+exec query = do
   co <- connection
-  execute co query values
+  runQuery co query
