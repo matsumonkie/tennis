@@ -26,19 +26,17 @@ all = queryTable usersTable
 
 find :: Int -> Query UserColumn
 find id =
-  (limit 1) (find' id)
-
-find' :: Int -> Query UserColumn
-find' id = proc () -> do
-  row@(User'{ usrId = id' }) <- all -< ()
-  restrictId id -< id'
-  returnA -< row
+  limit 1 $ query
+  where
+    query = proc () -> do
+      row@(User'{ usrId = id' }) <- all -< ()
+      restrictId id -< id'
+      returnA -< row
 
 withGender :: Gender -> Query UserColumn
 withGender gender = proc () -> do
   row@(User' { usrGender = gender' }) <- all -< ()
   restrictGender gender -< gender'
-
   returnA -< row
 
 restrictGender :: Gender -> QueryArr (Column PGText) ()

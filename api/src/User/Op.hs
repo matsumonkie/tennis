@@ -5,7 +5,7 @@ module User.Op (
 , find
 , males
 , females
-, more
+, details
 ) where
 
 import Prelude hiding (show)
@@ -40,9 +40,8 @@ females :: IO [User]
 females = do
   exec $ QUsr.withGender Female
 
-more :: Int -> IO ([User], [Club])
-more id = do
+details :: Int -> IO ([User], [Club])
+details id = do
   users <- find id
-  clubs <- exec $ QClb.with_users $ fmap usrId users
+  clubs <- exec $ QClb.with_users $ map usrId users
   return (users, clubs)
-  --return $ head users
