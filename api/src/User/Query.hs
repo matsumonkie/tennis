@@ -7,6 +7,7 @@ module User.Query (
   all
 , find
 , withGender
+, delete
 ) where
 
 import Prelude hiding (all)
@@ -21,10 +22,10 @@ import Opaleye
 import Opaleye.Order
 import Data.Char hiding (all)
 
-all :: Query UserColumn
+all :: Query RUserColumn
 all = queryTable usersTable
 
-find :: Int -> Query UserColumn
+find :: Int -> Query RUserColumn
 find id =
   limit 1 $ query
   where
@@ -33,7 +34,14 @@ find id =
       restrictId id -< id'
       returnA -< row
 
-withGender :: Gender -> Query UserColumn
+delete :: Int -> (Table WUserColumn RUserColumn, RUserColumn -> Column PGBool)
+delete id =
+  (usersTable, cond)
+  where
+    cond :: RUserColumn -> Column PGBool
+    cond (User' { usrId = id' }) = pgInt4 id .== id'
+
+withGender :: Gender -> Query RUserColumn
 withGender gender = proc () -> do
   row@(User' { usrGender = gender' }) <- all -< ()
   restrictGender gender -< gender'

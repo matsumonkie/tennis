@@ -3,9 +3,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module User.Schema ( UserColumn
-                  , usersTable
-                  ) where
+module User.Schema ( usersTable
+                   ) where
 
 import Data.Profunctor.Product.TH (makeAdaptorAndInstance)
 import User.Model
@@ -32,12 +31,12 @@ import Opaleye (Column,
 
 $(makeAdaptorAndInstance "pUser" ''User')
 
-usersTable :: Table UserColumn UserColumn
+usersTable :: Table WUserColumn RUserColumn
 usersTable = Table "users"
   (pUser User'
-    { usrId = required "id"
-    , usrEmail = required "email"
-    , usrName = required "name"
+    { usrId     = optional "id"
+    , usrEmail  = required "email"
+    , usrName   = required "name"
     , usrGender = required "gender"
     })
 

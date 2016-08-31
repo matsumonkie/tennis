@@ -8,26 +8,28 @@ module User.Controller (
 
 import Servant
 import Control.Monad.Except
+import Debug.Trace
+import Database.PostgreSQL.Simple hiding (Query)
+import Data.Int
 
 import User.Model
 import Club.Model
 import User.Op
-import Debug.Trace
-import Database.PostgreSQL.Simple hiding (Query)
 
 userProxy = Proxy :: Proxy UserAPI
-
-type Pst = Post
 
 type UserAPI =
   "users"
     :> Get '[JSON] [User]
 
   :<|> "users"
-    :> Capture "x" Int :> Get '[JSON] [User]
+    :> Capture "id" Int :> Get '[JSON] [User]
 
-  :<|> "users2"
-    :> ReqBody '[JSON] User :> Pst '[JSON] [User]
+  :<|> "users"
+    :> ReqBody '[JSON] User :> Post '[JSON] [User]
+
+  :<|> "users"
+    :> Capture "id" Int :> Delete '[JSON] Int64
 
   :<|> "users.male"
     :> Get '[JSON] [User]
@@ -36,19 +38,21 @@ type UserAPI =
     :> Get '[JSON] [User]
 
   :<|> "users.detailed"
-    :> Capture "x" Int :> Get '[JSON] ([User], [Club])
+    :> Capture "id" Int :> Get '[JSON] ([User], [Club])
 
 userServer :: Server UserAPI
 userServer = do
   getUsers
   :<|> getUser
   :<|> createUser
+  :<|> deleteUser
   :<|> getMales
   :<|> getFemales
   :<|> getDetailedUser
   where
     getUsers           = liftOp User.Op.index
-    createUser user    = trace (show user) liftOp $ User.Op.find $ usrId user
+    createUser user    = trace (show user) liftOp $ User.Op.create user
+    deleteUser id      = liftOp $ User.Op.delete id
     getUser id         = liftOp $ User.Op.find id
     getMales           = liftOp User.Op.males
     getFemales         = liftOp User.Op.females

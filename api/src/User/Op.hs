@@ -1,11 +1,13 @@
 {-# LANGUAGE TypeOperators #-}
 
 module User.Op (
-  index
-, find
-, males
-, females
+  create
 , details
+, delete
+, females
+, find
+, index
+, males
 ) where
 
 import Prelude hiding (show)
@@ -18,7 +20,7 @@ import User.Json
 import User.Schema
 import Connection
 import Data.Int
-import Opaleye (runQuery, Query)
+import Opaleye
 import Opaleye.Internal.RunQuery as F
 import Database.PostgreSQL.Simple hiding (Query)
 
@@ -26,22 +28,29 @@ import qualified Database.PostgreSQL.Simple as PGS
 
 index :: IO [User]
 index = do
-  exec QUsr.all
+  runGet QUsr.all
 
 find :: Int -> IO [User]
 find id = do
-  exec $ QUsr.find id
+  runGet $ QUsr.find id
 
 males :: IO [User]
 males = do
-  exec $ QUsr.withGender Male
+  runGet $ QUsr.withGender Male
 
 females :: IO [User]
 females = do
-  exec $ QUsr.withGender Female
+  runGet $ QUsr.withGender Female
 
 details :: Int -> IO ([User], [Club])
 details id = do
   users <- find id
-  clubs <- exec $ QClb.with_users $ map usrId users
+  clubs <- runGet $ QClb.with_users $ map usrId users
   return (users, clubs)
+
+create :: User -> IO [User]
+create newUser = return [ newUser ]
+
+delete :: Int -> IO Int64
+delete id = do
+  runDel $ QUsr.delete id

@@ -3,14 +3,15 @@
 {-# LANGUAGE DeriveGeneric #-}
 
 module Connection (
-  exec
+  runDel
+, runGet
 ) where
 
 import Control.Monad.Reader
 import Data.Int
 import Database.PostgreSQL.Simple.ToField
 import Data.ByteString.Builder (byteString)
-import Opaleye (runQuery)
+import Opaleye
 import qualified Data.Profunctor.Product.Default as D
 import Database.PostgreSQL.Simple hiding (Query)
 import Opaleye (runQuery, Query)
@@ -23,7 +24,13 @@ connection =
                  \user='iori' \
                  \password='iori'"
 
-exec :: D.Default QueryRunner a b => Query a -> IO [b]
-exec query = do
+runGet :: D.Default QueryRunner a b => Query a -> IO [b]
+runGet query = do
   co <- connection
   runQuery co query
+
+runDel :: (Table a b, b -> Column PGBool) -> IO Int64
+runDel (table, condition) = do
+  co <- connection
+  res <- runDelete co table condition
+  return res
