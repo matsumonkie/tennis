@@ -1,6 +1,3 @@
-{-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE DataKinds #-}
-
 module User.Controller (
   userProxy
 , userServer
@@ -9,36 +6,15 @@ module User.Controller (
 import Servant
 import Control.Monad.Except
 import Debug.Trace
-import Database.PostgreSQL.Simple hiding (Query)
-import Data.Int
 
-import User.Model
-import Club.Model
+import User.Route
 import User.Op
+import User.Json
+import Club.Json
 
 userProxy = Proxy :: Proxy UserAPI
 
-type UserAPI =
-  "users"
-    :> Get '[JSON] [User]
-
-  :<|> "users"
-    :> Capture "id" Int :> Get '[JSON] [User]
-
-  :<|> "users"
-    :> ReqBody '[JSON] User :> Post '[JSON] [User]
-
-  :<|> "users"
-    :> Capture "id" Int :> Delete '[JSON] Int64
-
-  :<|> "users.male"
-    :> Get '[JSON] [User]
-
-  :<|> "users.female"
-    :> Get '[JSON] [User]
-
-  :<|> "users.detailed"
-    :> Capture "id" Int :> Get '[JSON] ([User], [Club])
+liftOp op = liftIO op >>= return
 
 userServer :: Server UserAPI
 userServer = do
@@ -57,5 +33,3 @@ userServer = do
     getMales           = liftOp User.Op.males
     getFemales         = liftOp User.Op.females
     getDetailedUser id = liftOp $ User.Op.details id
-
-liftOp op = liftIO op >>= return

@@ -1,7 +1,4 @@
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE Arrows #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE FlexibleContexts #-}
 
 module User.Query (
   all
@@ -11,13 +8,13 @@ module User.Query (
 ) where
 
 import Prelude hiding (all)
-import Opaleye (Query, queryTable, showSqlForPostgres)
+import Opaleye
 import Data.Profunctor.Product.TH (makeAdaptorAndInstance)
 import Data.Profunctor.Product.Default (Default)
 
 import User.Model
 import User.Schema
-import Control.Arrow (returnA, (<<<))
+import Control.Arrow
 import Opaleye
 import Opaleye.Order
 import Data.Char hiding (all)

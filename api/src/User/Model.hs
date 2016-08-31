@@ -8,7 +8,7 @@ module User.Model ( User
                   ) where
 
 import GHC.Generics
-import Opaleye (Column, PGInt4, PGText, Nullable)
+import Opaleye
 
 data User' a b c d = User'
   { usrId     :: a

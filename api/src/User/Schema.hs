@@ -1,33 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE OverloadedStrings #-}
 
 module User.Schema ( usersTable
                    ) where
 
 import Data.Profunctor.Product.TH (makeAdaptorAndInstance)
 import User.Model
-import Data.Profunctor.Product (p2, p3, p4)
-import Data.Set
 import Opaleye.PGTypes
 import Database.PostgreSQL.Simple.FromField
-import Opaleye.Internal.RunQuery as F
-import Opaleye (Column,
-                PGInt4,
-                PGInt8,
-                PGText,
-                Column,
-                Nullable,
-                matchNullable,
-                isNull,
-                Table(Table), required, optional, queryTable,
-                Query, QueryArr, restrict, (.==), (.<=), (.&&), (.<),
-                (.===),
-                (.++), ifThenElse, pgString, aggregate, groupBy,
-                count, avg, sum, leftJoin, runQuery,
-                showSqlForPostgres, Unpackspec,
-                PGInt4, PGInt8, PGText, PGDate, PGFloat8, PGBool)
+import Opaleye
 
 $(makeAdaptorAndInstance "pUser" ''User')
 

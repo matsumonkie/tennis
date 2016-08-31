@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Lib
                      , User.Model
+                     , User.Route
                      , User.Op
                      , User.Controller
                      , User.Query

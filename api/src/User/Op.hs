@@ -1,5 +1,3 @@
-{-# LANGUAGE TypeOperators #-}
-
 module User.Op (
   create
 , details
@@ -14,17 +12,11 @@ import Prelude hiding (show)
 import User.Model
 import Club.Model
 import Club.Schema
+import User.Schema
 import qualified User.Query as QUsr
 import qualified Club.Query as QClb
-import User.Json
-import User.Schema
 import Connection
 import Data.Int
-import Opaleye
-import Opaleye.Internal.RunQuery as F
-import Database.PostgreSQL.Simple hiding (Query)
-
-import qualified Database.PostgreSQL.Simple as PGS
 
 index :: IO [User]
 index = do
